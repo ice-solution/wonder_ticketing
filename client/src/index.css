@@ -1,0 +1,10 @@
+@import "./styles/dashboard.css";
+@import "./styles/events.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-white text-slate-900 antialiased;
+}

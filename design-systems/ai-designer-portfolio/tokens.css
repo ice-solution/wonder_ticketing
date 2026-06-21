@@ -1,0 +1,55 @@
+/* Open Design example-ai-designer-portfolio — Wonder Ticketing light (白底藍字) */
+:root {
+  --od-bg: #ffffff;
+  --od-bg-2: #f6f9fc;
+  --od-surface: #ffffff;
+  --od-surface-2: #eef4f8;
+  --od-fg: #051a24;
+  --od-fg-muted: #0d212c;
+  --od-fg-subtle: #273c46;
+  --od-body: #051a24;
+  --od-on-dark: #f6fcff;
+  --od-on-dark-muted: #e0ebf0;
+  --od-accent: #1d4ed8;
+  --od-accent-light: #3b82f6;
+  --od-border: rgba(5, 26, 36, 0.1);
+  --od-border-hover: rgba(29, 78, 216, 0.35);
+  --od-glow-blue: rgba(37, 99, 235, 0.12);
+  --od-glow-blue-strong: rgba(29, 78, 216, 0.18);
+  --od-gradient-hero: linear-gradient(135deg, #1e40af 0%, #2563eb 45%, #3b82f6 100%);
+
+  --od-font-sans: "PP Neue Montreal", "Space Grotesk", -apple-system, system-ui, sans-serif;
+  --od-font-serif: "PP Mondwest", "DM Serif Display", Georgia, serif;
+  --od-font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --od-text-display: clamp(32px, 5vw, 44px);
+  --od-text-section: clamp(28px, 4vw, 40px);
+  --od-text-card: 22px;
+  --od-text-body: 16px;
+  --od-text-sm: 14px;
+  --od-text-kicker: 12px;
+
+  --od-section-y: 96px;
+  --od-section-y-sm: 48px;
+  --od-wrap-x: 32px;
+  --od-wrap-x-sm: 24px;
+  --od-max-w: 1200px;
+  --od-hero-col: 440px;
+  --od-bento-gap: 16px;
+  --od-bento-gap-sm: 12px;
+  --od-radius-sm: 16px;
+  --od-radius-lg: 24px;
+  --od-radius-pill: 9999px;
+
+  --od-shadow-primary:
+    0 1px 2px rgba(5, 26, 36, 0.1),
+    0 4px 4px rgba(5, 26, 36, 0.09),
+    0 9px 6px rgba(5, 26, 36, 0.05),
+    inset 0 2px 8px rgba(255, 255, 255, 0.5);
+  --od-shadow-secondary: 0 0 0 0.5px rgba(0, 0, 0, 0.05), 0 4px 30px rgba(0, 0, 0, 0.08);
+  --od-shadow-card: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --od-shadow-glow:
+    0 0 0 1px rgba(29, 78, 216, 0.12),
+    0 0 32px var(--od-glow-blue),
+    0 8px 32px rgba(5, 26, 36, 0.08);
+}

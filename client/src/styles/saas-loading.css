@@ -1,0 +1,82 @@
+/* open-design saas-landing / composio loading primitives — Wonder tokens */
+
+@keyframes wonder-shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+@keyframes wonder-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.saas-shimmer {
+  background-color: #e8eef8;
+  background-image: linear-gradient(90deg, #e8eef8 0%, #f4f7fc 50%, #e8eef8 100%);
+  background-size: 800px 100%;
+  animation: wonder-shimmer 1.4s linear infinite;
+}
+
+.saas-spinner {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid #cbd5e1;
+  border-top-color: #1565c0;
+  border-radius: 50%;
+  animation: wonder-spin 0.85s linear infinite;
+}
+
+.saas-page-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 3rem 1rem;
+  color: #64748b;
+}
+
+.saas-page-loader-label {
+  font-size: 0.8125rem;
+  letter-spacing: 0.01em;
+}
+
+.saas-skeleton-card {
+  border-radius: 0.75rem;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  padding: 1.5rem;
+}
+
+.saas-skeleton-line {
+  height: 0.75rem;
+  border-radius: 0.25rem;
+}
+
+.saas-skeleton-line.tall {
+  height: 4rem;
+  border-radius: 0.5rem;
+}
+
+.saas-skeleton-line.w20 {
+  width: 20%;
+}
+.saas-skeleton-line.w40 {
+  width: 40%;
+}
+.saas-skeleton-line.w60 {
+  width: 60%;
+}
+.saas-skeleton-line.w80 {
+  width: 80%;
+}
+
+.saas-skeleton-stack {
+  display: grid;
+  gap: 0.625rem;
+}
