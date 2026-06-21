@@ -1,4 +1,5 @@
 import "dotenv/config";
+import { existsSync } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import express from "express";
@@ -317,9 +318,20 @@ app.post("/api/dev/fulfill-order", express.json(), async (req, res) => {
 });
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const clientDist = path.resolve(__dirname, "../../client/dist");
-const marketingDir = path.resolve(__dirname, "../../marketing");
-const uploadsDir = path.resolve(__dirname, "../../uploads");
+
+function resolveRuntimePath(relativePath: string): string {
+  const candidates = [
+    // Source runtime: server/_core/index.ts -> project root
+    path.resolve(__dirname, "../..", relativePath),
+    // Compiled runtime: dist/server/_core/index.js -> project root
+    path.resolve(__dirname, "../../..", relativePath),
+  ];
+  return candidates.find((candidate) => existsSync(candidate)) ?? candidates[0];
+}
+
+const clientDist = resolveRuntimePath("client/dist");
+const marketingDir = resolveRuntimePath("marketing");
+const uploadsDir = resolveRuntimePath("uploads");
 
 app.use("/uploads", express.static(uploadsDir));
 

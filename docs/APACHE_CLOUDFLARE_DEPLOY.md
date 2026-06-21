@@ -33,6 +33,33 @@ NODE_ENV=production PORT=3777 npm start
 
 正式機建議用 `pm2` 或 `systemd` 管理 Node process。
 
+### 弱機器部署：本機 build 後 SCP
+
+如果 production server 無法執行 build，可以在本機 build 後上傳以下內容：
+
+```text
+dist/             # tsc 編譯後的 server/shared JS
+client/dist/      # Vite 編譯後的 frontend assets
+package.json
+package-lock.json
+node_modules/     # 或在 production server 跑 npm ci --omit=dev
+.env
+.secrets/         # 如使用 WONDER_PRIVATE_KEY_PATH，注意不要提交 git
+uploads/          # 如已有上傳檔案
+```
+
+目錄結構應是：
+
+```text
+/var/www/wonder_ticketing/
+  dist/server/_core/index.js
+  client/dist/index.html
+  package.json
+  .env
+```
+
+不要只上傳 `dist/`，因為 frontend Vite output 預設在 `client/dist/`。
+
 ## 3. Apache Modules
 
 Ubuntu / Debian：
