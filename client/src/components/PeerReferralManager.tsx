@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { trpc } from "@/lib/trpc";
+import { NumberInput } from "@/components/NumberInput";
 
 type RewardType = "discount" | "free_ticket" | "cashback";
 
@@ -96,11 +97,11 @@ export function PeerReferralManager({
             </label>
             <label className="text-sm">
               {rewardType === "discount" ? t("peerReferral.percent") : t("peerReferral.amountHkd")}
-              <input
-                type="number"
+              <NumberInput
                 min={1}
                 value={rewardValue}
-                onChange={(e) => setRewardValue(Number(e.target.value))}
+                onChange={setRewardValue}
+                emptyFallback={1}
                 className="mt-1 block rounded border px-2 py-1.5 text-sm w-24"
               />
             </label>

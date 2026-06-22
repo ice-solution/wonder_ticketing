@@ -10,6 +10,8 @@ export const CreateEventInputSchema = z.object({
   venue: z.string().min(1).max(500),
   venueAddress: z.string().optional(),
   category: z.string().max(64).optional(),
+  region: z.string().max(32).optional(),
+  city: z.string().max(32).optional(),
   eventType: z.enum(["in_person", "online", "hybrid"]).default("in_person"),
   visibility: z.enum(["public", "private", "members_only"]).default("public"),
   maxAttendees: z.number().int().positive().default(300),

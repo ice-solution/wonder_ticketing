@@ -15,6 +15,7 @@ import { CustomQuestionManager } from "@/components/CustomQuestionManager";
 import { PrivateInvitePanel } from "@/components/PrivateInvitePanel";
 import { EventReminderManager } from "@/components/EventReminderManager";
 import { EventResponsesPanel } from "@/components/EventResponsesPanel";
+import { EventBrowseFields } from "@/components/EventBrowseFields";
 
 function toLocalDatetime(d: Date | string) {
   const date = new Date(d);
@@ -44,6 +45,9 @@ export function EventEdit() {
   const [googleAnalyticsId, setGoogleAnalyticsId] = useState("");
   const [enableEmbedWidget, setEnableEmbedWidget] = useState(true);
   const [bannerUrl, setBannerUrl] = useState<string | null>(null);
+  const [category, setCategory] = useState("");
+  const [region, setRegion] = useState("asia_pacific");
+  const [city, setCity] = useState("hong_kong");
 
   const generateCopy = trpc.ai.generateEventCopy.useMutation({
     onSuccess: (copy) => {
@@ -65,6 +69,9 @@ export function EventEdit() {
     setGoogleAnalyticsId(event.googleAnalyticsId ?? "");
     setEnableEmbedWidget(event.enableEmbedWidget !== false);
     setBannerUrl(event.bannerUrl ?? null);
+    setCategory(event.category ?? "");
+    setRegion(event.region ?? "asia_pacific");
+    setCity(event.city ?? "hong_kong");
   }, [event]);
 
   if (isLoading) {
@@ -134,6 +141,9 @@ export function EventEdit() {
             metaPixelId: metaPixelId || undefined,
             googleAnalyticsId: googleAnalyticsId || undefined,
             enableEmbedWidget,
+            category: category || undefined,
+            region: region || undefined,
+            city: city || undefined,
           });
         }}
       >
@@ -173,6 +183,14 @@ export function EventEdit() {
           {t("event.venue")}
           <input required value={venue} onChange={(e) => setVenue(e.target.value)} className="mt-1 w-full border rounded px-3 py-2" />
         </label>
+        <EventBrowseFields
+          category={category}
+          region={region}
+          city={city}
+          onCategoryChange={setCategory}
+          onRegionChange={setRegion}
+          onCityChange={setCity}
+        />
         <label className="block text-sm">
           {t("event.date")}
           <input type="datetime-local" required value={eventDate} onChange={(e) => setEventDate(e.target.value)} className="mt-1 w-full border rounded px-3 py-2" />

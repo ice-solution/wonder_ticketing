@@ -18,6 +18,10 @@ const eventSchema = new Schema(
     termsAndConditions: String,
     maxAttendees: { type: Number, default: 300 },
     category: { type: String, maxlength: 64, index: true },
+    /** 地區大洲 slug，見 shared/eventBrowse.ts */
+    region: { type: String, maxlength: 32, index: true },
+    /** 城市 slug，見 shared/eventBrowse.ts */
+    city: { type: String, maxlength: 32, index: true },
     eventType: {
       type: String,
       enum: ["in_person", "online", "hybrid"],

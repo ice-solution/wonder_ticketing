@@ -15,6 +15,20 @@ import {
 } from "../lib/eventAccess.js";
 import { buildEventInviteUrl, generateInviteToken } from "../lib/inviteToken.js";
 import { onEventPublishedWebhook } from "../services/webhooks.js";
+import {
+  EVENT_CATEGORY_SLUGS,
+  EVENT_CITY_SLUGS,
+  EVENT_REGION_SLUGS,
+} from "../../shared/eventBrowse.js";
+import type { Context } from "../_core/context.js";
+
+function publishedVisibilityFilter(ctx: Context) {
+  const visibilities = ["public"];
+  if (ctx.user && canAccessMembersOnlyEvent(ctx.user, true)) {
+    visibilities.push("members_only");
+  }
+  return { status: "published", visibility: { $in: visibilities } };
+}
 
 async function ensureInviteToken(eventId: string): Promise<string> {
   const event = await Event.findById(eventId).select("inviteToken").lean();
@@ -31,19 +45,18 @@ export const eventRouter = router({
         page: z.number().int().positive().optional(),
         limit: z.number().int().positive().optional(),
         category: z.string().optional(),
+        region: z.string().optional(),
+        city: z.string().optional(),
         search: z.string().optional(),
       })
     )
     .query(async ({ input, ctx }) => {
       const page = input.page ?? 1;
       const limit = Math.min(input.limit ?? 20, 50);
-      const filter: Record<string, unknown> = { status: "published" };
-      const visibilities = ["public"];
-      if (ctx.user && canAccessMembersOnlyEvent(ctx.user, true)) {
-        visibilities.push("members_only");
-      }
-      filter.visibility = { $in: visibilities };
+      const filter: Record<string, unknown> = publishedVisibilityFilter(ctx);
       if (input.category) filter.category = input.category;
+      if (input.region) filter.region = input.region;
+      if (input.city) filter.city = input.city;
       if (input.search) {
         filter.$or = [
           { title: { $regex: input.search, $options: "i" } },
@@ -60,6 +73,45 @@ export const eventRouter = router({
       ]);
       return { items, total, page, limit };
     }),
+
+  /** 公開列表：類別 / 地區活動數量（供 /events 瀏覽區塊） */
+  browseFacets: publicProcedure.query(async ({ ctx }) => {
+    const base = publishedVisibilityFilter(ctx);
+
+    const [categoryRows, cityRows] = await Promise.all([
+      Event.aggregate<{ _id: string; count: number }>([
+        { $match: { ...base, category: { $nin: [null, ""] } } },
+        { $group: { _id: "$category", count: { $sum: 1 } } },
+      ]),
+      Event.aggregate<{ _id: { city: string; region: string }; count: number }>([
+        { $match: { ...base, city: { $nin: [null, ""] } } },
+        { $group: { _id: { city: "$city", region: "$region" }, count: { $sum: 1 } } },
+      ]),
+    ]);
+
+    const categories = EVENT_CATEGORY_SLUGS.map((slug) => ({
+      slug,
+      count: categoryRows.find((r) => r._id === slug)?.count ?? 0,
+    }));
+
+    const cities = EVENT_CITY_SLUGS.map((slug) => {
+      const row = cityRows.find((r) => r._id?.city === slug);
+      return {
+        slug,
+        region: row?._id?.region ?? null,
+        count: row?.count ?? 0,
+      };
+    });
+
+    const regions = EVENT_REGION_SLUGS.map((slug) => ({
+      slug,
+      count: cityRows
+        .filter((r) => r._id?.region === slug)
+        .reduce((sum, r) => sum + r.count, 0),
+    }));
+
+    return { categories, cities, regions };
+  }),
 
   getBySlug: publicProcedure
     .input(z.object({ slug: z.string(), inviteToken: z.string().optional() }))

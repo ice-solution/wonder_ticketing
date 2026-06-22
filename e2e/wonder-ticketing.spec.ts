@@ -50,7 +50,7 @@ test.describe.serial("Wonder Ticketing 完整 E2E", () => {
 
     await page.goto(`/event/${fixture.eventSlug}`);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-    await page.locator('input[type="number"]').first().fill("1");
+    await page.locator('input[inputmode="decimal"]').first().fill("1");
     await page.getByRole("link", { name: /立即購票/ }).click();
     await expect(page.getByRole("heading", { name: "結帳" })).toBeVisible();
     await expect(page.getByLabel("姓名")).toBeVisible();

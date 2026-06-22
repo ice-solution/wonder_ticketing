@@ -2,6 +2,7 @@ import "dotenv/config";
 import mongoose from "mongoose";
 import { connectDB, disconnectDB } from "./connect.js";
 import { Event, TicketType, User } from "../models/index.js";
+import { seedDemoEvents } from "./demoEvents.js";
 
 export const V1_DEMO_SLUG = "wonder-demo-concert";
 
@@ -51,6 +52,9 @@ export async function seedV1() {
       slug: V1_DEMO_SLUG,
       status: "published",
       visibility: "public",
+      category: "music",
+      region: "asia_pacific",
+      city: "hong_kong",
       createdBy: organizer._id,
       maxAttendees: 300,
       enableEmbedWidget: true,
@@ -71,12 +75,27 @@ export async function seedV1() {
       quantity: 20,
       sold: 0,
     });
+  } else {
+    await Event.updateOne(
+      { _id: event._id },
+      {
+        $set: {
+          category: event.category ?? "music",
+          region: event.region ?? "asia_pacific",
+          city: event.city ?? "hong_kong",
+          updatedAt: new Date(),
+        },
+      }
+    );
   }
+
+  const demoStats = await seedDemoEvents(organizer._id);
 
   console.log("Seed v1.0 OK:", {
     organizer: organizer.email,
     admin: "admin@wonder.hk",
     eventSlug: event.slug,
+    demoEvents: demoStats,
   });
 
   if (needsDisconnect) await disconnectDB();

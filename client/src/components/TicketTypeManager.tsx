@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { trpc } from "@/lib/trpc";
 import { formatMoney } from "@/lib/eventText";
+import { NumberInput } from "@/components/NumberInput";
 
 function TicketTypeRow({
   eventId,
@@ -39,18 +40,17 @@ function TicketTypeRow({
           className="w-full rounded border px-2 py-1.5"
         />
         <div className="flex gap-2">
-          <input
-            type="number"
+          <NumberInput
             min={0}
             value={price}
-            onChange={(e) => setPrice(Number(e.target.value))}
+            onChange={setPrice}
             className="w-24 rounded border px-2 py-1.5"
           />
-          <input
-            type="number"
+          <NumberInput
             min={tt.sold ?? 0}
             value={quantity}
-            onChange={(e) => setQuantity(Number(e.target.value))}
+            onChange={setQuantity}
+            emptyFallback={tt.sold ?? 0}
             className="w-24 rounded border px-2 py-1.5"
           />
         </div>
@@ -124,18 +124,17 @@ export function TicketTypeManager({ eventId }: { eventId: string }) {
           onChange={(e) => setName(e.target.value)}
           className="border rounded px-2 py-1.5 text-sm sm:col-span-2"
         />
-        <input
-          type="number"
+        <NumberInput
           min={0}
           value={price}
-          onChange={(e) => setPrice(Number(e.target.value))}
+          onChange={setPrice}
           className="border rounded px-2 py-1.5 text-sm"
         />
-        <input
-          type="number"
+        <NumberInput
           min={1}
           value={quantity}
-          onChange={(e) => setQuantity(Number(e.target.value))}
+          onChange={setQuantity}
+          emptyFallback={1}
           className="border rounded px-2 py-1.5 text-sm"
         />
       </div>

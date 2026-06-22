@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { trpc } from "@/lib/trpc";
+import { NumberInput } from "@/components/NumberInput";
 
 export function DonationWidget({ eventId, eventTitle }: { eventId: string; eventTitle: string }) {
   const { t } = useTranslation();
@@ -18,11 +19,11 @@ export function DonationWidget({ eventId, eventTitle }: { eventId: string; event
       <h3 className="font-semibold">{t("donation.title")}</h3>
       <p className="text-sm text-slate-500 mb-3">{eventTitle}</p>
       <div className="space-y-2">
-        <input
-          type="number"
+        <NumberInput
           min={10}
           value={amount}
-          onChange={(e) => setAmount(Number(e.target.value))}
+          onChange={setAmount}
+          emptyFallback={50}
           className="w-full border rounded px-3 py-2"
         />
         <input

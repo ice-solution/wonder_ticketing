@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { useTranslation } from "react-i18next";
 import { trpc } from "@/lib/trpc";
 import { DashboardLayout } from "./DashboardLayout";
+import { EventBrowseFields } from "@/components/EventBrowseFields";
 
 function defaultEventDate() {
   const d = new Date(Date.now() + 7 * 86400000);
@@ -21,6 +22,9 @@ export function EventForm() {
   const [titleEn, setTitleEn] = useState("");
   const [venue, setVenue] = useState("Hong Kong");
   const [eventDate, setEventDate] = useState(defaultEventDate);
+  const [category, setCategory] = useState("music");
+  const [region, setRegion] = useState("asia_pacific");
+  const [city, setCity] = useState("hong_kong");
 
   return (
     <DashboardLayout>
@@ -36,6 +40,9 @@ export function EventForm() {
             venue,
             eventDate: new Date(eventDate),
             visibility: "public",
+            category: category || undefined,
+            region,
+            city,
           });
         }}
       >
@@ -51,6 +58,14 @@ export function EventForm() {
           {t("event.venue")}
           <input required value={venue} onChange={(e) => setVenue(e.target.value)} className="mt-1 w-full border rounded px-3 py-2" />
         </label>
+        <EventBrowseFields
+          category={category}
+          region={region}
+          city={city}
+          onCategoryChange={setCategory}
+          onRegionChange={setRegion}
+          onCityChange={setCity}
+        />
         <label className="block text-sm">
           {t("event.date")}
           <input

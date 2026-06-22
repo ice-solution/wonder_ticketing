@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "wouter";
 import { useTranslation } from "react-i18next";
 import { formatMoney } from "@/lib/eventText";
+import { NumberInput } from "@/components/NumberInput";
 
 type EmbedData = {
   event: {
@@ -60,12 +61,11 @@ export function EmbedPage() {
               {tt.name} · {formatMoney(tt.price, "HKD", "zh-TW")}
             </span>
             {tt.available > 0 ? (
-              <input
-                type="number"
+              <NumberInput
                 min={0}
                 max={tt.available}
                 value={qty[tt.id] ?? 0}
-                onChange={(e) => setQty((q) => ({ ...q, [tt.id]: Number(e.target.value) }))}
+                onChange={(n) => setQty((q) => ({ ...q, [tt.id]: n }))}
                 className="w-14 rounded border px-1 py-0.5 text-right"
               />
             ) : (

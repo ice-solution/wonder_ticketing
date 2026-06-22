@@ -10,6 +10,7 @@ import { EventChat } from "@/components/EventChat";
 import { TrackingPixels } from "@/components/TrackingPixels";
 import { syncInviteFromSearch, getEventInvite } from "@/lib/eventInvite";
 import { PageLoader } from "@/components/loading/SaasLoading";
+import { NumberInput } from "@/components/NumberInput";
 
 export function EventPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -152,13 +153,12 @@ export function EventPage() {
                         {formatMoney(tt.price, "HKD", i18n.language)}
                       </p>
                     </div>
-                    <input
-                      type="number"
+                    <NumberInput
                       min={0}
                       max={Math.min(10, available)}
                       value={qty[id] ?? 0}
-                      onChange={(e) =>
-                        setQty((prev) => ({ ...prev, [id]: Math.max(0, Number(e.target.value) || 0) }))
+                      onChange={(n) =>
+                        setQty((prev) => ({ ...prev, [id]: n }))
                       }
                       className="w-16 rounded border px-2 py-1 text-center"
                     />

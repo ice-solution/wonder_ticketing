@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { trpc } from "@/lib/trpc";
+import { NumberInput } from "@/components/NumberInput";
 
 export function DiscountManager({ eventId }: { eventId: string }) {
   const { t } = useTranslation();
@@ -27,10 +28,12 @@ export function DiscountManager({ eventId }: { eventId: string }) {
           placeholder="CODE"
           className="border rounded px-2 py-1.5 text-sm font-mono flex-1"
         />
-        <input
-          type="number"
+        <NumberInput
+          min={1}
+          max={100}
           value={value}
-          onChange={(e) => setValue(Number(e.target.value))}
+          onChange={setValue}
+          emptyFallback={10}
           className="border rounded px-2 py-1.5 text-sm w-20"
         />
         <button

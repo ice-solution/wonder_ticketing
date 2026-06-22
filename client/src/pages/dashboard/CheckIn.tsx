@@ -4,6 +4,7 @@ import { trpc } from "@/lib/trpc";
 import { formatMoney } from "@/lib/eventText";
 import { DashboardLayout } from "./DashboardLayout";
 import { QrScanner } from "@/components/QrScanner";
+import { NumberInput } from "@/components/NumberInput";
 
 export function DashboardCheckIn() {
   const { t, i18n } = useTranslation();
@@ -180,13 +181,12 @@ export function DashboardCheckIn() {
                 <span>
                   {tt.name} · {formatMoney(tt.price, "HKD", i18n.language)}
                 </span>
-                <input
-                  type="number"
+                <NumberInput
                   min={0}
                   max={Math.max(0, (tt.quantity ?? 0) - (tt.sold ?? 0))}
                   value={qty[String(tt._id)] ?? 0}
-                  onChange={(e) =>
-                    setQty((q) => ({ ...q, [String(tt._id)]: Number(e.target.value) }))
+                  onChange={(n) =>
+                    setQty((q) => ({ ...q, [String(tt._id)]: n }))
                   }
                   className="w-16 rounded border px-2 py-1 text-right"
                 />

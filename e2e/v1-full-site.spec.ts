@@ -37,7 +37,7 @@ test.describe.serial("v1.0 全站功能", () => {
     test("3. 活動詳情", async ({ page }) => {
       await page.goto(`/event/${V1_DEMO_SLUG}`);
       await expect(page.getByRole("heading", { level: 1 })).toContainText(/Wonder Demo Concert/i);
-      await page.locator('input[type="number"]').first().fill("1");
+      await page.locator('input[inputmode="decimal"]').first().fill("1");
       await expect(page.getByRole("link", { name: /立即購票/ })).toBeVisible();
     });
 
@@ -69,7 +69,7 @@ test.describe.serial("v1.0 全站功能", () => {
       });
 
       await page.goto(`/event/${V1_DEMO_SLUG}`);
-      await page.locator('input[type="number"]').first().fill("1");
+      await page.locator('input[inputmode="decimal"]').first().fill("1");
       await page.getByRole("link", { name: /立即購票/ }).click();
       await expect(page.getByRole("heading", { name: "結帳" })).toBeVisible();
 

@@ -9,6 +9,7 @@ import {
   type SeatMapLayout,
 } from "../../../shared/schemas/seatMap";
 import "@/styles/seat-map-editor.css";
+import { NumberInput } from "@/components/NumberInput";
 
 const CELL_CYCLE: SeatCellType[] = ["seat", "blocked", "aisle"];
 
@@ -124,22 +125,22 @@ export function SeatMapEditor({ eventId }: { eventId: string }) {
       <div className="editor-toolbar">
         <label>
           {t("seatEditor.rows")}
-          <input
-            type="number"
+          <NumberInput
             min={1}
             max={40}
             value={layout.rows}
-            onChange={(e) => setRows(Math.min(40, Math.max(1, Number(e.target.value) || 1)))}
+            onChange={setRows}
+            emptyFallback={1}
           />
         </label>
         <label>
           {t("seatEditor.cols")}
-          <input
-            type="number"
+          <NumberInput
             min={1}
             max={40}
             value={layout.cols}
-            onChange={(e) => setCols(Math.min(40, Math.max(1, Number(e.target.value) || 1)))}
+            onChange={setCols}
+            emptyFallback={1}
           />
         </label>
         <label>
